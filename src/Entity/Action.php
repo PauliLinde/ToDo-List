@@ -2,6 +2,7 @@
 namespace App\Entity;
 
 use App\Repository\ActionRepository;
+use App\Repository\TodoListRepository;
 use Doctrine\ORM\Mapping as ORM;
 use function Sodium\add;
 
@@ -21,6 +22,8 @@ class Action
     #[ORM\ManyToOne(targetEntity: TodoList::class, inversedBy: 'actions')]
     private ?TodoList $todoList = null;
 
+    private ?TodoListRepository $todoRepo;
+
     public function getAction(): ?Action {
         return $this->action;
     }
@@ -33,9 +36,9 @@ class Action
         return $this->todoList;
     }
 
-    public function setTodoList(?TodoList $todoList){
+    public function setTodoList(?int $id){
+        $todoList = $this->todoRepo->find($id);
         $this->todoList = $todoList;
     }
-
 
 }
