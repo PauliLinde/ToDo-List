@@ -3,8 +3,9 @@ namespace App\Entity;
 
 use App\Repository\ActionRepository;
 use App\Repository\TodoListRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use function Sodium\add;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ActionRepository::class)]
 #[ORM]
@@ -16,29 +17,31 @@ class Action
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
     private ?String $action = null;
 
-    #[ORM\ORM\Column("todoList_id")]
-    #[ORM\ManyToOne(targetEntity: TodoList::class, inversedBy: 'actions')]
-    private ?TodoList $todoList = null;
+    #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Type(DateTimeInterface::class)]
+    private ?DateTimeInterface $dueDate = null;
 
-    private ?TodoListRepository $todoRepo;
-
-    public function getAction(): ?Action {
+    public function getAction(): ?String {
         return $this->action;
     }
 
-    public function setAction(?TodoList $action){
+    public function setAction(?String $action):self {
         $this->action = $action;
+        return $this;
     }
 
-    public function getTodoList(): ?TodoList{
-        return $this->todoList;
+    public function getDueDate(): ?\DateTimeInterface
+    {
+        return $this->dueDate;
     }
 
-    public function setTodoList(?int $id){
-        $todoList = $this->todoRepo->find($id);
-        $this->todoList = $todoList;
+    public function setDueDate(\DateTimeInterface $dueDate): self
+    {
+        $this->dueDate = $dueDate;
+        return $this;
     }
-
 }
