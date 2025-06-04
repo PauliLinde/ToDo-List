@@ -2,34 +2,36 @@
 namespace App\Entity;
 
 use App\Repository\ActionRepository;
-use App\Repository\TodoListRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ActionRepository::class)]
-#[ORM]
 class Action
 {
-    #[ORM\ID]
+    #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column]
     #[Assert\NotBlank]
-    private ?String $action = null;
+    private ?string $action = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'datetime')]
     #[Assert\NotBlank]
     #[Assert\Type(DateTimeInterface::class)]
     private ?DateTimeInterface $dueDate = null;
 
-    public function getAction(): ?String {
+    public function getId(): ?int {
+        return $this->id;
+    }
+
+    public function getAction(): ?string {
         return $this->action;
     }
 
-    public function setAction(?String $action):self {
+    public function setAction(?string $action):self {
         $this->action = $action;
         return $this;
     }

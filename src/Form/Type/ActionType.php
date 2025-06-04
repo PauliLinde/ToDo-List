@@ -14,7 +14,9 @@ class ActionType extends AbstractType
     {
         $builder
             ->add('action', TextType::class)
-            ->add('dueDate', DateType::class)
+            ->add('dueDate', DateType::class, [
+                'widget' => 'single_text',
+            ])
             ->add('submit', SubmitType::class, ['label' => 'Submit me']);
     }
 
