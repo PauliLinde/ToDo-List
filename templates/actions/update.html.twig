@@ -13,7 +13,7 @@
     {% form_theme form 'bootstrap_5_layout.html.twig' %}
 
     {{ form_start(form, {
-        'action': path(action.id ? 'edit_action' : 'add_action', { id: action.id }),
+        'action': path('edit_action', { id: action.id }),
         'attr': { 'class': 'mt-4' }
     }) }}
         {{ form_errors(form) }}
