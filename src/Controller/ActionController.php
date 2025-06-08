@@ -19,9 +19,9 @@ class ActionController extends AbstractController
     public function getAllActions(EntityManagerInterface $entityManager): Response{
         $actions = $entityManager->getRepository(Action::class)->findAll();
 
-        if(!$actions){
+        /*if(!$actions){
             throw $this->createNotFoundException(("Actions not found"));
-        }
+        }*/
 
         return $this->render('todoList.html.twig',
             ['actions' => $actions]);
