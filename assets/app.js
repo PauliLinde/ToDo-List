@@ -8,3 +8,10 @@ import './bootstrap.js';
 import './styles/app.css';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+
+// assets/app.js
+import { registerSvelteControllerComponents } from '@symfony/ux-svelte';
+
+registerSvelteControllerComponents(require.context('./svelte/controllers', true, /\.svelte$/));
+
+registerSvelteControllerComponents();

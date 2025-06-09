@@ -23,7 +23,9 @@ class ActionController extends AbstractController
             throw $this->createNotFoundException(("Actions not found"));
         }*/
 
-        return $this->render('todoList.html.twig',
+        /*return $this->render('todoList.html.twig',
+            ['actions' => $actions]);*/
+        return $this->render('page.server.js',
             ['actions' => $actions]);
     }
 
