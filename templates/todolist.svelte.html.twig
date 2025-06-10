@@ -6,13 +6,12 @@
     {{ encore_entry_link_tags('app') }}
 </head>
 <body>
-    <div 
-        data-controller="symfony--ux-svelte--svelte" 
-        data-symfony--ux-svelte--svelte-component-value="TodoList" 
+    <div
+        data-controller="symfony--ux-svelte--svelte"
+        data-symfony--ux-svelte--svelte-component-value="TodoList"
         data-symfony--ux-svelte--svelte-props-value="{{ {'actions': actions}|json_encode|e('html_attr') }}">
-        <!-- TodoList component will be mounted here -->
     </div>
-    
+
     {{ encore_entry_script_tags('app') }}
 </body>
 </html>

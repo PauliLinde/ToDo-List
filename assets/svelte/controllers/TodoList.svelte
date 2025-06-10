@@ -13,6 +13,8 @@
                href="/svelte/actions/add">Add New Action</a>
         </div>
 
+        <!-- Creating list elements for each action, with links to update or delete by it's id -->
+
         {#if actions && actions.length > 0}
             <ul class="divide-y divide-gray-200 px-4">
                 {#each actions as action}

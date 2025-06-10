@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ActionControllerSvelte extends AbstractController
 {
 
-    #[Route('/svelte/actions', name: 'get_actions')]
+    #[Route('/svelte/actions', name: 'svelte_get_actions')]
     public function getAllActions(EntityManagerInterface $entityManager): Response{
         $actions = $entityManager->getRepository(Action::class)->findAll();
 
@@ -26,7 +26,7 @@ class ActionControllerSvelte extends AbstractController
         ]);
     }
 
-    #[Route('/svelte/actions/add', name: 'add_action', methods: ['GET','POST'])]
+    #[Route('/svelte/actions/add', name: 'svelte_add_action', methods: ['GET','POST'])]
     public function addAction(Request $request, EntityManagerInterface $entityManager): Response{
 
         $action = new Action();
@@ -38,7 +38,7 @@ class ActionControllerSvelte extends AbstractController
             $action = $form->getData();
             $entityManager->persist($action);
             $entityManager->flush();
-            return $this->redirectToRoute('get_actions');
+            return $this->redirectToRoute('svelte_get_actions');
         }
 
         return $this->render('Add.svelte.html.twig', [
@@ -46,7 +46,7 @@ class ActionControllerSvelte extends AbstractController
         ]);
     }
 
-    #[Route('/svelte/actions/edit/{id}', name: 'edit_action', methods: ['GET', 'POST'])]
+    #[Route('/svelte/actions/edit/{id}', name: 'svelte_edit_action', methods: ['GET', 'POST'])]
     public function editAction(EntityManagerInterface $entityManager, int $id,
                                Request $request): Response{
 
@@ -64,7 +64,7 @@ class ActionControllerSvelte extends AbstractController
 
             $entityManager->persist($action);
             $entityManager->flush();
-            return $this->redirectToRoute('get_actions');
+            return $this->redirectToRoute('svelte_get_actions');
         }
 
         return $this->render('Update.svelte.html.twig', [
@@ -73,7 +73,7 @@ class ActionControllerSvelte extends AbstractController
         ]);
     }
 
-    #[Route('/svelte/actions/remove/{id}', name: 'remove_action', methods: 'GET')]
+    #[Route('/svelte/actions/remove/{id}', name: 'svelte_remove_action', methods: 'GET')]
     public function removeAction(EntityManagerInterface $entityManager, int $id): Response{
 
         error_log("Deleting ID: $id");
@@ -90,7 +90,7 @@ class ActionControllerSvelte extends AbstractController
         $entityManager->remove($action);
         $entityManager->flush();
 
-        return $this->redirectToRoute('get_actions');
+        return $this->redirectToRoute('svelte_get_actions');
     }
 
     #[Route('/svelte/test', name: 'test_svelte')]

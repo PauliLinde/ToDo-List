@@ -13,6 +13,7 @@
  </div>
 
 <ul class="list-group" id="todoList">
+    <!-- Creating list elements for each action, with links to update or delete by it's id -->
     {% for action in actions %}
     <li class="list-group-item">
         <input class="form-check-input me-1" type="checkbox" value="" id={{ action.id }}>

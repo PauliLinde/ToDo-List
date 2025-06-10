@@ -22,6 +22,8 @@ class PostControllerTest extends WebTestCase
         return \App\Kernel::class;
     }
 
+
+    //Creating some actions, and add them to testDatabase
     public function testGetActions(): void
     {
         $action1 = new Action();
@@ -36,6 +38,7 @@ class PostControllerTest extends WebTestCase
         $this->entityManager->persist($action2);
         $this->entityManager->flush();
 
+        //Testing method that get all action, and comparing to actions that were added in this test
         $crawler = $this->client->request('GET', '/actions');
 
         $actions = $this->entityManager->getRepository(Action::class)->findAll();
@@ -46,6 +49,7 @@ class PostControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h2', 'My todo-list');
     }
 
+    //Testing to add new action through form
     public function testAddAction(): void{
         $crawler = $this->client->request('GET', '/actions/add');
         $form = $crawler->selectButton('Submit me')->form();
@@ -62,6 +66,7 @@ class PostControllerTest extends WebTestCase
         $this->assertStringContainsString('Cut grass', $this->client->getResponse()->getContent());
     }
 
+    //Adding new action to testDatabase, getting it's id and then testing to update by id
     public function testEditAction(): void{
         $action = new Action();
         $action->setAction('Grocery shopping');
@@ -87,6 +92,8 @@ class PostControllerTest extends WebTestCase
         $this->assertStringContainsString('Cut hair', $this->client->getResponse()->getContent());
     }
 
+    //Adding new action to testDatabase, getting it's id, testing to delete by id and checking that
+    //the action cannot be found in database anymore
     public function testRemoveAction(): void{
         $action = new Action();
         $action->setAction('Pick up from school');
@@ -106,6 +113,8 @@ class PostControllerTest extends WebTestCase
         $this->assertStringNotContainsString('Pick up from school', $this->client->getResponse()->getContent());
     }
 
+
+    //Removing all elements in database after testing
     protected function tearDown(): void
     {
         $actions = $this->entityManager->getRepository(Action::class)->findAll();
