@@ -1,17 +1,30 @@
-import './bootstrap.js';
-/*
- * Welcome to your app's main JavaScript file!
- *
- * This file will be included onto the page via the importmap() Twig function,
- * which should already be in your base.html.twig.
- */
+﻿import './bootstrap.js';
 import './styles/app.css';
-
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
-
-// assets/app.js
 import { registerSvelteControllerComponents } from '@symfony/ux-svelte';
 
-registerSvelteControllerComponents(require.context('./svelte/controllers', true, /\.svelte$/));
+console.log('App.js loaded');
 
-registerSvelteControllerComponents();
+registerSvelteControllerComponents(
+    require.context('./svelte/controllers', true, /\.svelte$/)
+);
+
+console.log('Svelte components registered');
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded');
+    console.log('window.resolveSvelteComponent:', typeof window.resolveSvelteComponent);
+    
+    // Kolla olika selectors
+    const allDivs = document.querySelectorAll('div');
+    console.log('Total divs on page:', allDivs.length);
+    
+    const dataControllerElements = document.querySelectorAll('[data-controller]');
+    console.log('Elements with data-controller:', dataControllerElements.length);
+    dataControllerElements.forEach(el => console.log('Controller element:', el.outerHTML));
+    
+    const svelteElements = document.querySelectorAll('[data-controller="symfony--ux-svelte--svelte"]');
+    console.log('Found Svelte elements:', svelteElements.length);
+    
+    // Kolla hela body innehållet
+    console.log('Body innerHTML (first 500 chars):', document.body.innerHTML.substring(0, 500));
+});

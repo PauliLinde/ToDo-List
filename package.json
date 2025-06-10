@@ -1,0 +1,46 @@
+{
+    "name": "todo-list",
+    "version": "1.0.0",
+    "main": "index.js",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "encore dev",
+        "build": "encore production",
+        "watch": "encore dev --watch"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/PauliLinde/ToDo-List.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/PauliLinde/ToDo-List/issues"
+    },
+    "homepage": "https://github.com/PauliLinde/ToDo-List#readme",
+    "description": "",
+    "devDependencies": {
+        "@symfony/stimulus-bridge": "^4.0.1",
+        "@symfony/webpack-encore": "^5.1.0",
+        "@tailwindcss/forms": "^0.5.10",
+        "@tailwindcss/postcss": "^4.1.8",
+        "autoprefixer": "^10.4.21",
+        "postcss": "^8.5.4",
+        "postcss-loader": "^8.1.1",
+        "svelte": "^4.2.20",
+        "svelte-loader": "^3.2.4",
+        "tailwindcss": "^4.1.8",
+        "vite": "^6.3.5",
+        "webpack-notifier": "^1.15.0"
+    },
+    "dependencies": {
+        "@hotwired/stimulus": "^3.2.2",
+        "@symfony/ux-svelte": "^2.26.1",
+        "@symfony/ux-turbo": "^2.26.1",
+        "@tailwindcss/vite": "^4.1.8"
+    }
+}

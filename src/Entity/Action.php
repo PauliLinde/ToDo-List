@@ -2,12 +2,13 @@
 namespace App\Entity;
 
 use App\Repository\ActionRepository;
+use JsonSerializable;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ActionRepository::class)]
-class Action
+class Action implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -45,5 +46,14 @@ class Action
     {
         $this->dueDate = $dueDate;
         return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'action' => $this->action,
+            'dueDate' => $this->dueDate ? $this->dueDate->format('Y-m-d') : null,
+        ];
     }
 }

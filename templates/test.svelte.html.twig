@@ -1,0 +1,17 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    {{ encore_entry_link_tags('app') }}
+</head>
+<body>
+    <h2>Testing Svelte Component:</h2>
+    
+    <div {{ svelte_component('Test', { message: 'Test message from Twig!' }) }}>
+        <!-- Svelte component will be mounted here -->
+    </div>
+    
+    {{ encore_entry_script_tags('app') }}
+</body>
+</html>

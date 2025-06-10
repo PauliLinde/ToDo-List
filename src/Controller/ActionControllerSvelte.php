@@ -4,26 +4,29 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\ActionRepository;
 use App\Entity\Action;
 use App\Form\Type\ActionType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use function PHPUnit\Framework\throwException;
 
-class ActionController extends AbstractController
+class ActionControllerSvelte extends AbstractController
 {
 
-    #[Route('/actions', name: 'get_actions')]
+    #[Route('/svelte/actions', name: 'get_actions')]
     public function getAllActions(EntityManagerInterface $entityManager): Response{
         $actions = $entityManager->getRepository(Action::class)->findAll();
 
-        return $this->render('todoList.html.twig',
-            ['actions' => $actions]);
+        $actionData = array_map(function($action) {
+            return $action->jsonSerialize();
+        }, $actions);
+
+        return $this->render('todolist.svelte.html.twig', [
+            'actions' => $actionData,
+        ]);
     }
 
-    #[Route('/actions/add', name: 'add_action', methods: ['GET','POST'])]
+    #[Route('/svelte/actions/add', name: 'add_action', methods: ['GET','POST'])]
     public function addAction(Request $request, EntityManagerInterface $entityManager): Response{
 
         $action = new Action();
@@ -38,12 +41,12 @@ class ActionController extends AbstractController
             return $this->redirectToRoute('get_actions');
         }
 
-        return $this->render('actions/add.html.twig', [
+        return $this->render('Add.svelte.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/actions/edit/{id}', name: 'edit_action', methods: ['GET', 'POST'])]
+    #[Route('/svelte/actions/edit/{id}', name: 'edit_action', methods: ['GET', 'POST'])]
     public function editAction(EntityManagerInterface $entityManager, int $id,
                                Request $request): Response{
 
@@ -58,28 +61,41 @@ class ActionController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $action = $form->getData();
+
             $entityManager->persist($action);
             $entityManager->flush();
             return $this->redirectToRoute('get_actions');
         }
 
-        return $this->render('actions/update.html.twig', [
+        return $this->render('Update.svelte.html.twig', [
             'form' => $form->createView(),
             'action' => $action,
         ]);
     }
 
-    #[Route('/actions/remove/{id}', name: 'remove_action', methods: 'GET')]
+    #[Route('/svelte/actions/remove/{id}', name: 'remove_action', methods: 'GET')]
     public function removeAction(EntityManagerInterface $entityManager, int $id): Response{
+
+        error_log("Deleting ID: $id");
 
         $action = $entityManager->getRepository(Action::class)->find($id);
 
         if(!$action){
-            throw $this->createNotFoundException(("Action not found"));
+            error_log("Action with ID $id not found!");
+            throw $this->createNotFoundException("Action not found");
         }
+
+        error_log("Found action to delete: " . $action->getAction());
 
         $entityManager->remove($action);
         $entityManager->flush();
+
         return $this->redirectToRoute('get_actions');
+    }
+
+    #[Route('/svelte/test', name: 'test_svelte')]
+    public function test(): Response
+    {
+        return $this->render('test.svelte.html.twig');
     }
 }
